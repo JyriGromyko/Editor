@@ -2584,7 +2584,7 @@ $(".show_project_files_btn").on("click", function () {
             </a>
             <div class="tag_list">
               ${tags}
-              <button class="tag_add">+ Add tag</button>
+              <button class="tag_add">+ Tägi</button>
             </div>
           </div>
         `);
@@ -2805,7 +2805,7 @@ $("#send_email_dialog .comment__files").on("change", function () {
             <img src="${getFileIcon(url)}">
             <button class="preview_delete">x</button>
             <div class="tag_list">
-              <button class="tag_add">+ Add tag</button>
+              <button class="tag_add">+ Tägi</button>
             </div>
           </div>
         `);
