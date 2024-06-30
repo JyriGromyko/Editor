@@ -2744,12 +2744,14 @@ function showSendEmailDialog() {
 function updateSendEmailUrl() {
   let dialog = $("#send_email_dialog");
   let title = dialog.find(".title").val();
+  let message = dialog.find(".message").val() + '\n';
   let emails = new Set();
   dialog.find("table .owner_checked .email").each(function() {
     emails.add($(this).text());
   });
   emails = [...emails];
-  dialog.find(".send_email_button").attr("href", `mailto:${emails[0] || ""}?subject=${title}&cc=${emails.slice(1).join(",")}`);
+  message = message.replaceAll('\n', '%0D%0A');
+  dialog.find(".send_email_button").attr("href", `mailto:${emails[0] || ""}?subject=${title}&body=${message}&cc=${emails.slice(1).join(",")}`);
 }
 
 $("#show_send_email_dialog").on("click", showSendEmailDialog);
@@ -2849,7 +2851,6 @@ $(".send_email_button").on("click", function () {
   if (!attachments.length) {
     return;
   }
-  let message = dialog.find(".message").val().replace('\n', '<br>') + '<br>';
   let promises = attachments.map(file => {
     let img_url = file.querySelector('img').src;
     let file_url = `${window.location.origin}/${file.dataset.url}`;
@@ -2867,7 +2868,6 @@ $(".send_email_button").on("click", function () {
       reader.readAsDataURL(blob);
     }));
   });
-  promises.unshift(message);
   navigator.clipboard.write([
     new ClipboardItem({
       'text/html': Promise.all(promises).then(html => new Blob(html, { type: 'text/html' }))
